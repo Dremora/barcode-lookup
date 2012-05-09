@@ -1,0 +1,88 @@
+#main
+{
+	width: 400px;
+	font-size: 16pt;
+	color: #444;
+	height: 430px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -215px;
+	margin-left: -200px;
+}
+
+p.inputbox
+{
+	text-align: right;
+}
+
+label
+{
+	color: #474;
+}
+
+#barcode
+{
+	font-size: 16pt;
+	display: block;
+	width: 100%;
+}
+
+#results
+{
+	display: none;
+}
+
+#results dl
+{
+	overflow: auto;
+}
+
+#results dl dt,
+#results dl dd
+{
+	float: left;
+	margin: 5px 0;
+}
+
+#results dl dt
+{
+	clear: left;
+	width: 200px;
+	color: #555;
+	text-align: right;
+	display: block;
+}
+
+#results dl dd
+{
+	padding-left: 10px;
+	width: 190px;
+}
+
+#canonical
+{
+	font-weight: bold;
+}
+
+.valid
+{
+	color: #2B9433;
+}
+
+.invalid
+{
+	color: #942B33;
+}
+
+#image-block
+{
+	margin-left: 60px;
+}
+
+#error
+{
+	text-align: center;
+	color: #942B33;
+	display: none;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Barcode Toolz</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="barcode.js"></script>
+    <link rel="stylesheet" type="text/css" href="barcode.css" />
+</head>
+<body>
+<div id="main">
+
+<p class="inputbox">
+    <label>Barcode lookup
+    <input autofocus type="search" id="barcode" />
+    </label>
+</p>
+
+<div id="results">
+    <dl>
+        <dt>Canonical form: </dt> <dd id="canonical"></dd>
+        <dt>Country: </dt> <dd id="country"></dd>
+        <dt>Checksum: </dt> <dd id="checksum"></dd>
+    </dl>
+    <p id="image-block"><img src="" alt="" id="image"/></p>
+</div>
+
+<div id="error">
+    Barcode is incorrect.
+</div>
+
+</div>
+
+</body>
+</html>
