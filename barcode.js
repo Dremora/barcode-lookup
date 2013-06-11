@@ -364,6 +364,7 @@
       $('#error').hide();
       canvas = document.getElementById('canvas');
       barcodeToCanvas(barcode, canvas);
+      document.getElementById('image').src = canvas.toDataURL();
       $('#results').show();
       if (barcode.validChecksum()) {
         $('#checksum').text('valid').attr('class', 'valid');

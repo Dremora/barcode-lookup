@@ -75,9 +75,13 @@ label
 	color: #942B33;
 }
 
+#canvas {
+	display: none;
+}
+
 #image-block
 {
-	text-align: center;
+	margin-left: 20px;
 }
 
 #error
