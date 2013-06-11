@@ -7,10 +7,11 @@ module.exports = (grunt) ->
       compile:
         files:
           'barcode.js': 'barcode.coffee'
+          'barcodeCanvas.js': 'barcodeCanvas.coffee'
 
     uglify:
       build:
-        src: 'barcode.js'
+        src: ['barcodeCanvas.js', 'barcode.js']
         dest: 'barcode-min.js'
   )
 

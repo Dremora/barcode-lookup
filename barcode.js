@@ -292,6 +292,54 @@
       return sum % 10 === 0;
     };
 
+    Barcode.prototype.group1map = ['000000', '001011', '001101', '001110', '010011', '011001', '011100', '010101', '010110', '011010'];
+
+    Barcode.prototype.codes = [['0001101', '0100111', '1110010'], ['0011001', '0110011', '1100110'], ['0010011', '0011011', '1101100'], ['0111101', '0100001', '1000010'], ['0100011', '0011101', '1011100'], ['0110001', '0111001', '1001110'], ['0101111', '0000101', '1010000'], ['0111011', '0010001', '1000100'], ['0110111', '0001001', '1001000'], ['0001011', '0010111', '1110100']];
+
+    Barcode.prototype.toBinary = function() {
+      var digit, group1, group2, i, map;
+      map = this.group1map[this.barcode[0]];
+      group1 = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.barcode.slice(1, 7);
+        _results = [];
+        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+          digit = _ref[i];
+          _results.push({
+            bits: this.codes[digit][map[i]],
+            digit: digit
+          });
+        }
+        return _results;
+      }).call(this);
+      group2 = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.barcode.slice(7, 13);
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          digit = _ref[_i];
+          _results.push({
+            bits: this.codes[digit][2],
+            digit: digit
+          });
+        }
+        return _results;
+      }).call(this);
+      return [
+        {
+          bits: '101'
+        }
+      ].concat(group1).concat([
+        {
+          bits: '01010'
+        }
+      ]).concat(group2).concat([
+        {
+          bits: '101'
+        }
+      ]);
+    };
+
     return Barcode;
 
   })();
@@ -305,7 +353,7 @@
   state_pushed = false;
 
   barcodeUpdate = function(params) {
-    var barcode, image_url;
+    var barcode, canvas;
     barcode = new Barcode($('#barcode').val());
     if (barcode.invalid != null) {
       $('#results').hide();
@@ -314,11 +362,8 @@
       }
     } else {
       $('#error').hide();
-      image_url = "http://www.jacoballred.com/barcode/barcode.php?1&encoding=EAN-13&code=" + (barcode.canonical()) + "&multiplier=2";
-      if (image_url !== $('#image').attr('src')) {
-        $('#image').hide();
-        $('#image').attr('src', image_url);
-      }
+      canvas = document.getElementById('canvas');
+      barcodeToCanvas(barcode, canvas);
       $('#results').show();
       if (barcode.validChecksum()) {
         $('#checksum').text('valid').attr('class', 'valid');

@@ -144,6 +144,39 @@ class Barcode
     sum += parseInt(@barcode[x]) for x in [0..12] by 2
     sum % 10 == 0
 
+  group1map: [
+    '000000',
+    '001011',
+    '001101',
+    '001110',
+    '010011',
+    '011001',
+    '011100',
+    '010101',
+    '010110',
+    '011010'
+  ]
+
+  codes: [
+    [ '0001101', '0100111', '1110010' ],
+    [ '0011001', '0110011', '1100110' ],
+    [ '0010011', '0011011', '1101100' ],
+    [ '0111101', '0100001', '1000010' ],
+    [ '0100011', '0011101', '1011100' ],
+    [ '0110001', '0111001', '1001110' ],
+    [ '0101111', '0000101', '1010000' ],
+    [ '0111011', '0010001', '1000100' ],
+    [ '0110111', '0001001', '1001000' ],
+    [ '0001011', '0010111', '1110100' ]
+  ]
+
+  toBinary: ->
+    map = @group1map[@barcode[0]]
+    group1 = (bits: @codes[digit][map[i]], digit: digit for digit, i in @barcode[1..6])
+    group2 = (bits: @codes[digit][2], digit: digit for digit in @barcode[7..12])
+    [bits: '101'].concat(group1).concat([bits: '01010']).concat(group2).concat([bits: '101'])
+
+
 timeout = null
 current_barcode = ''
 url = "http://dremora.com/barcode_toolz/"
@@ -156,11 +189,8 @@ barcodeUpdate = (params) ->
     $('#error').hide() if barcode.empty
   else
     $('#error').hide()
-    image_url = "http://www.jacoballred.com/barcode/barcode.php
-?1&encoding=EAN-13&code=#{barcode.canonical()}&multiplier=2"
-    if image_url != $('#image').attr 'src'
-      $('#image').hide()
-      $('#image').attr 'src', image_url
+    canvas = document.getElementById('canvas')
+    barcodeToCanvas(barcode, canvas)
     $('#results').show()
     if barcode.validChecksum()
       $('#checksum').text('valid').attr('class', 'valid')
