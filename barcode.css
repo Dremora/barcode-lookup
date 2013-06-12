@@ -145,3 +145,9 @@ img {
 	color: #942B33;
 	display: none;
 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
