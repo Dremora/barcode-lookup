@@ -359,6 +359,8 @@
       $('#results').hide();
       if (barcode.empty) {
         $('#error').hide();
+      } else {
+        $('#error').show();
       }
     } else {
       $('#error').hide();

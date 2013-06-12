@@ -1,14 +1,58 @@
+body, html {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background: linear-gradient(#fbfbfb, #fdfdfd) 100%;
+	background-repeat: no-repeat;
+	height: 100%;
+	background-attachment: fixed;
+}
+
 #main
 {
-	width: 400px;
+	width: 500px;
 	font-size: 16pt;
 	color: #444;
-	height: 430px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-top: -215px;
-	margin-left: -200px;
+	/*height: 430px;*/
+	/*position: absolute;*/
+	/*top: 50%;*/
+	/*left: 50%;*/
+	/*margin-top: -215px;*/
+	margin: 0 auto;
+}
+
+h1 {
+	font-size: 3.2rem;
+	text-align: center;
+	/*text-shadow: 2px 2px rgba(0, 0, 0, 0.2);*/
+	font-family: Helvetica Neue;
+	color: rgba(0, 0, 0, 0);
+	text-transform: lowercase;
+	font-variant: small-caps;
+	background: -webkit-repeating-linear-gradient(
+		180deg,
+		black 0,
+		black 3px,
+		rgba(0, 0, 0, 0) 3px,
+		rgba(0, 0, 0, 0) 5px,
+		black 5px,
+		black 8px,
+		rgba(0, 0, 0, 0) 8px,
+		rgba(0, 0, 0, 0) 10px,
+		black 10px,
+		black 11px,
+		rgba(0, 0, 0, 0) 11px,
+		rgba(0, 0, 0, 0) 14px,
+		black 14px,
+		black 17px,
+		rgba(0, 0, 0, 0) 17px,
+		rgba(0, 0, 0, 0) 20px
+	);
+	background-repeat: repeat;
+	-webkit-text-stroke: 1px #333;
+	-webkit-background-clip: text;
 }
 
 p.inputbox
@@ -16,16 +60,15 @@ p.inputbox
 	text-align: right;
 }
 
-label
-{
-	color: #474;
-}
-
 #barcode
 {
-	font-size: 16pt;
+	font-size: 2rem;
 	display: block;
 	width: 100%;
+	margin-top: 3rem;
+	padding: 5px 10px;
+	width: 20rem;
+	margin: 3rem auto 0;
 }
 
 #results
@@ -48,7 +91,7 @@ label
 #results dl dt
 {
 	clear: left;
-	width: 200px;
+	width: 250px;
 	color: #555;
 	text-align: right;
 	display: block;
@@ -57,7 +100,7 @@ label
 #results dl dd
 {
 	padding-left: 10px;
-	width: 190px;
+	width: 240px;
 }
 
 #canonical
@@ -81,7 +124,7 @@ label
 
 #image-block
 {
-	margin-left: 20px;
+	margin-left: 70px;
 }
 
 #error

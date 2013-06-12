@@ -24,7 +24,7 @@
       ctx.fillStyle = 'black'
       ctx.fillText(block.digit, 0, lineHeight + fontSize);
     for bit in block.bits
-      ctx.fillStyle = if (bit == '1') then 'black' else 'white'
+      ctx.fillStyle = if (bit == '1') then 'black' else 'rgba(255, 255, 255, 0)'
       ctx.fillRect(0, 0, lineWidth, h)
       ctx.translate(lineWidth, 0)
 

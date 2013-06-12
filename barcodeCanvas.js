@@ -28,7 +28,7 @@
       _ref4 = block.bits;
       for (_j = 0, _len1 = _ref4.length; _j < _len1; _j++) {
         bit = _ref4[_j];
-        ctx.fillStyle = bit === '1' ? 'black' : 'white';
+        ctx.fillStyle = bit === '1' ? 'black' : 'rgba(255, 255, 255, 0)';
         ctx.fillRect(0, 0, lineWidth, h);
         ctx.translate(lineWidth, 0);
       }

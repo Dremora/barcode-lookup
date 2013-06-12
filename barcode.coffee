@@ -186,7 +186,10 @@ barcodeUpdate = (params) ->
   barcode = new Barcode $('#barcode').val()
   if barcode.invalid?
     $('#results').hide()
-    $('#error').hide() if barcode.empty
+    if barcode.empty
+      $('#error').hide()
+    else
+      $('#error').show()
   else
     $('#error').hide()
     canvas = document.getElementById('canvas')
