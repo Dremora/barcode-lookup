@@ -185,12 +185,14 @@ state_pushed = false
 barcodeUpdate = (params) ->
   barcode = new Barcode $('#barcode').val()
   if barcode.invalid?
+    $('#main').removeClass('barcode-shown')
     $('#results').hide()
     if barcode.empty
       $('#error').hide()
     else
       $('#error').show()
   else
+    $('#main').addClass('barcode-shown')
     $('#error').hide()
     canvas = document.getElementById('canvas')
     barcodeToCanvas(barcode, canvas)

@@ -12,28 +12,37 @@ body {
 
 #main
 {
-	width: 500px;
 	font-size: 16pt;
 	color: #444;
-	/*height: 430px;*/
-	/*position: absolute;*/
-	/*top: 50%;*/
-	/*left: 50%;*/
-	/*margin-top: -215px;*/
-	margin: 0 auto;
+	width: 500px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -250px;
+	margin-top: -89px;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+}
+
+#main.barcode-shown {
+	top: 0%;
+	margin-top: 20px;
 }
 
 h1 {
-	font-size: 3.2rem;
+	position: relative;
+	top: 50%;
+	margin: 0 0 30px;
+	font-size: 3.8rem;
 	text-align: center;
-	/*text-shadow: 2px 2px rgba(0, 0, 0, 0.2);*/
 	font-family: Helvetica Neue;
 	color: rgba(0, 0, 0, 0);
 	text-transform: lowercase;
 	font-variant: small-caps;
 	background: -webkit-repeating-linear-gradient(
 		180deg,
-		black 0,
+		black 0px,
 		black 3px,
 		rgba(0, 0, 0, 0) 3px,
 		rgba(0, 0, 0, 0) 5px,
@@ -53,11 +62,14 @@ h1 {
 	background-repeat: repeat;
 	-webkit-text-stroke: 1px #333;
 	-webkit-background-clip: text;
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	transition: all 0.3s linear;
 }
 
-p.inputbox
-{
-	text-align: right;
+#main.barcode-shown h1 {
+	font-size: 3.2rem;
+	margin-bottom: 20px;
 }
 
 #barcode
@@ -65,10 +77,9 @@ p.inputbox
 	font-size: 2rem;
 	display: block;
 	width: 100%;
-	margin-top: 3rem;
 	padding: 5px 10px;
 	width: 20rem;
-	margin: 3rem auto 0;
+	margin: 0 auto 1rem;
 }
 
 #results
@@ -122,9 +133,10 @@ p.inputbox
 	display: none;
 }
 
-#image-block
-{
-	margin-left: 70px;
+img {
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #error

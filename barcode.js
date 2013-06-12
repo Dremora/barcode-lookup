@@ -356,6 +356,7 @@
     var barcode, canvas;
     barcode = new Barcode($('#barcode').val());
     if (barcode.invalid != null) {
+      $('#main').removeClass('barcode-shown');
       $('#results').hide();
       if (barcode.empty) {
         $('#error').hide();
@@ -363,6 +364,7 @@
         $('#error').show();
       }
     } else {
+      $('#main').addClass('barcode-shown');
       $('#error').hide();
       canvas = document.getElementById('canvas');
       barcodeToCanvas(barcode, canvas);

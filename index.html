@@ -11,18 +11,16 @@
 
 <h1>Barcode lookup</h1>
 
-<p class="inputbox">
-    <input autofocus id="barcode" />
-</p>
+<input autofocus id="barcode" />
 
 <div id="results">
+    <img src="" alt="" id="image"/>
     <dl>
         <dt>Canonical form: </dt> <dd id="canonical"></dd>
         <dt>Country: </dt> <dd id="country"></dd>
         <dt>Checksum: </dt> <dd id="checksum"></dd>
     </dl>
     <canvas id="canvas" width="360" height="250"></canvas>
-    <p id="image-block"><img src="" alt="" id="image"/></p>
 </div>
 
 <div id="error">
