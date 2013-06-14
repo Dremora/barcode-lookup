@@ -1,15 +1,26 @@
 class Barcode
-  constructor: (@barcode) ->
-    @invalid = true unless @barcode.match /^[0-9]{10,13}$/
-    @empty = @barcode == ''
-    while @barcode.length < 13 then @barcode = "0#{@barcode}"
-    @barcode = '' if @invalid
+  constructor: (barcode) ->
+    @callbacks = []
+    @set(barcode)
 
-  canonical: ->
-    @barcode
+  set: (@newValue) ->
+    oldValue = @value
+    @value = @newValue
+    return if (@value == oldValue)
+    @valid = /^[0-9]{10,13}$/.test(@value)
+    @empty = @value == ''
+    if @valid
+      @canonical = @value
+      while @canonical.length < 13 then @canonical = "0#{@canonical}"
+    else
+      @canonical = ''
+    cb(@value) for cb in @callbacks
+
+  onChange: (cb) ->
+    @callbacks.push(cb)
 
   country: ->
-    code = parseInt @barcode[0..2], 10
+    code = parseInt @canonical[0..2], 10
     if 0 <= code <= 19 then 'U.S. and Canada'
     else if 20 <= code <= 29 then 'Restricted distribution (MO defined)'
     else if 30 <= code <= 39 then 'U.S. drugs (see U.S. National Drug Code)'
@@ -140,8 +151,8 @@ class Barcode
 
   validChecksum: ->
     sum = 0
-    sum += parseInt(@barcode[x]) * 3 for x in [1..12] by 2
-    sum += parseInt(@barcode[x]) for x in [0..12] by 2
+    sum += parseInt(@canonical[x]) * 3 for x in [1..12] by 2
+    sum += parseInt(@canonical[x]) for x in [0..12] by 2
     sum % 10 == 0
 
   group1map: [
@@ -171,20 +182,19 @@ class Barcode
   ]
 
   toBinary: ->
-    map = @group1map[@barcode[0]]
-    group1 = (bits: @codes[digit][map[i]], digit: digit for digit, i in @barcode[1..6])
-    group2 = (bits: @codes[digit][2], digit: digit for digit in @barcode[7..12])
+    map = @group1map[@canonical[0]]
+    group1 = (bits: @codes[digit][map[i]], digit: digit for digit, i in @canonical[1..6])
+    group2 = (bits: @codes[digit][2], digit: digit for digit in @canonical[7..12])
     [bits: '101'].concat(group1).concat([bits: '01010']).concat(group2).concat([bits: '101'])
 
 
 timeout = null
-current_barcode = ''
-url = "http://dremora.com/barcode_toolz/"
-state_pushed = false
+barcode = new Barcode('')
 
-barcodeUpdate = (params) ->
-  barcode = new Barcode $('#barcode').val()
-  if barcode.invalid?
+barcode.onChange (value) -> $('#barcode').val(value)
+
+barcode.onChange (value) ->
+ if !barcode.valid
     $('#main').removeClass('barcode-shown')
     $('#results').hide()
     if barcode.empty
@@ -202,41 +212,29 @@ barcodeUpdate = (params) ->
       $('#checksum').text('valid').attr('class', 'valid')
     else
       $('#checksum').text('invalid').attr('class', 'invalid')
-    $('#canonical').text barcode.canonical()
+    $('#canonical').text barcode.canonical
     $('#country').text barcode.country()
-  if state_pushed || params?.fromHistory?
-    history.replaceState barcode.canonical(), null, url + barcode.canonical()
-  else if current_barcode != barcode.canonical()
-    history.pushState barcode.canonical(), null, url + barcode.canonical()
-    state_pushed = true
-  unless current_barcode == barcode.canonical()
+
+barcode.onChange (value) ->
+  clearTimeout timeout if timeout?
+  newValue = value
+  if barcode.valid || barcode.empty
     timeout = setTimeout ->
-      $('#error').show() if barcode.invalid? and !barcode.empty
-      current_barcode = barcode.canonical()
-      state_pushed = false
-    , 1000
+      window.location.hash = value 
+    , 300
 
 onBarcodeChange = ->
   clearTimeout timeout if timeout?
-  timeout = setTimeout barcodeUpdate, 100
+  barcode.set($('#barcode').val())
 
-barcodeChange = (barcode) ->
+onHashChange = (hash) ->
   clearTimeout timeout if timeout?
-  current_barcode = barcode
-  $('#barcode').val(barcode)
-  barcodeUpdate({fromHistory: true})
+  value = if hash then hash.split('#')[1] else ''
+  barcode.set(value)
 
 $ ->
-  $('#image').load -> $(this).show()
   $('#barcode').bind event, onBarcodeChange for event in [
     'keyup', 'keydown', 'paste', 'cut', 'change', 'search'
   ]
-  window.onpopstate = (event) -> barcodeChange(event.state) if event.state?
-  if history.state?
-    barcodeChange(history.state)
-  else
-    barcode = window.location.href.replace(url, '')
-    if barcode.length > 0
-      barcode = new Barcode(barcode)
-      history.replaceState barcode.canonical(), null, window.location.href
-      barcodeChange(barcode.canonical())
+  window.onhashchange = -> onHashChange(window.location.hash)
+  onHashChange(window.location.hash)

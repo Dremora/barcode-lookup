@@ -1,28 +1,46 @@
 (function() {
-  var Barcode, barcodeChange, barcodeUpdate, current_barcode, onBarcodeChange, state_pushed, timeout, url;
+  var Barcode, barcode, onBarcodeChange, onHashChange, timeout;
 
   Barcode = (function() {
     function Barcode(barcode) {
-      this.barcode = barcode;
-      if (!this.barcode.match(/^[0-9]{10,13}$/)) {
-        this.invalid = true;
-      }
-      this.empty = this.barcode === '';
-      while (this.barcode.length < 13) {
-        this.barcode = "0" + this.barcode;
-      }
-      if (this.invalid) {
-        this.barcode = '';
-      }
+      this.callbacks = [];
+      this.set(barcode);
     }
 
-    Barcode.prototype.canonical = function() {
-      return this.barcode;
+    Barcode.prototype.set = function(newValue) {
+      var cb, oldValue, _i, _len, _ref, _results;
+      this.newValue = newValue;
+      oldValue = this.value;
+      this.value = this.newValue;
+      if (this.value === oldValue) {
+        return;
+      }
+      this.valid = /^[0-9]{10,13}$/.test(this.value);
+      this.empty = this.value === '';
+      if (this.valid) {
+        this.canonical = this.value;
+        while (this.canonical.length < 13) {
+          this.canonical = "0" + this.canonical;
+        }
+      } else {
+        this.canonical = '';
+      }
+      _ref = this.callbacks;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        cb = _ref[_i];
+        _results.push(cb(this.value));
+      }
+      return _results;
+    };
+
+    Barcode.prototype.onChange = function(cb) {
+      return this.callbacks.push(cb);
     };
 
     Barcode.prototype.country = function() {
       var code;
-      code = parseInt(this.barcode.slice(0, 3), 10);
+      code = parseInt(this.canonical.slice(0, 3), 10);
       if ((0 <= code && code <= 19)) {
         return 'U.S. and Canada';
       } else if ((20 <= code && code <= 29)) {
@@ -284,10 +302,10 @@
       var sum, x, _i, _j;
       sum = 0;
       for (x = _i = 1; _i <= 12; x = _i += 2) {
-        sum += parseInt(this.barcode[x]) * 3;
+        sum += parseInt(this.canonical[x]) * 3;
       }
       for (x = _j = 0; _j <= 12; x = _j += 2) {
-        sum += parseInt(this.barcode[x]);
+        sum += parseInt(this.canonical[x]);
       }
       return sum % 10 === 0;
     };
@@ -298,10 +316,10 @@
 
     Barcode.prototype.toBinary = function() {
       var digit, group1, group2, i, map;
-      map = this.group1map[this.barcode[0]];
+      map = this.group1map[this.canonical[0]];
       group1 = (function() {
         var _i, _len, _ref, _results;
-        _ref = this.barcode.slice(1, 7);
+        _ref = this.canonical.slice(1, 7);
         _results = [];
         for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
           digit = _ref[i];
@@ -314,7 +332,7 @@
       }).call(this);
       group2 = (function() {
         var _i, _len, _ref, _results;
-        _ref = this.barcode.slice(7, 13);
+        _ref = this.canonical.slice(7, 13);
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           digit = _ref[_i];
@@ -346,22 +364,21 @@
 
   timeout = null;
 
-  current_barcode = '';
+  barcode = new Barcode('');
 
-  url = "http://dremora.com/barcode_toolz/";
+  barcode.onChange(function(value) {
+    return $('#barcode').val(value);
+  });
 
-  state_pushed = false;
-
-  barcodeUpdate = function(params) {
-    var barcode, canvas;
-    barcode = new Barcode($('#barcode').val());
-    if (barcode.invalid != null) {
+  barcode.onChange(function(value) {
+    var canvas;
+    if (!barcode.valid) {
       $('#main').removeClass('barcode-shown');
       $('#results').hide();
       if (barcode.empty) {
-        $('#error').hide();
+        return $('#error').hide();
       } else {
-        $('#error').show();
+        return $('#error').show();
       }
     } else {
       $('#main').addClass('barcode-shown');
@@ -375,69 +392,51 @@
       } else {
         $('#checksum').text('invalid').attr('class', 'invalid');
       }
-      $('#canonical').text(barcode.canonical());
-      $('#country').text(barcode.country());
+      $('#canonical').text(barcode.canonical);
+      return $('#country').text(barcode.country());
     }
-    if (state_pushed || ((params != null ? params.fromHistory : void 0) != null)) {
-      history.replaceState(barcode.canonical(), null, url + barcode.canonical());
-    } else if (current_barcode !== barcode.canonical()) {
-      history.pushState(barcode.canonical(), null, url + barcode.canonical());
-      state_pushed = true;
+  });
+
+  barcode.onChange(function(value) {
+    var newValue;
+    if (timeout != null) {
+      clearTimeout(timeout);
     }
-    if (current_barcode !== barcode.canonical()) {
+    newValue = value;
+    if (barcode.valid || barcode.empty) {
       return timeout = setTimeout(function() {
-        if ((barcode.invalid != null) && !barcode.empty) {
-          $('#error').show();
-        }
-        current_barcode = barcode.canonical();
-        return state_pushed = false;
-      }, 1000);
+        return window.location.hash = value;
+      }, 300);
     }
-  };
+  });
 
   onBarcodeChange = function() {
     if (timeout != null) {
       clearTimeout(timeout);
     }
-    return timeout = setTimeout(barcodeUpdate, 100);
+    return barcode.set($('#barcode').val());
   };
 
-  barcodeChange = function(barcode) {
+  onHashChange = function(hash) {
+    var value;
     if (timeout != null) {
       clearTimeout(timeout);
     }
-    current_barcode = barcode;
-    $('#barcode').val(barcode);
-    return barcodeUpdate({
-      fromHistory: true
-    });
+    value = hash ? hash.split('#')[1] : '';
+    return barcode.set(value);
   };
 
   $(function() {
-    var barcode, event, _i, _len, _ref;
-    $('#image').load(function() {
-      return $(this).show();
-    });
+    var event, _i, _len, _ref;
     _ref = ['keyup', 'keydown', 'paste', 'cut', 'change', 'search'];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       event = _ref[_i];
       $('#barcode').bind(event, onBarcodeChange);
     }
-    window.onpopstate = function(event) {
-      if (event.state != null) {
-        return barcodeChange(event.state);
-      }
+    window.onhashchange = function() {
+      return onHashChange(window.location.hash);
     };
-    if (history.state != null) {
-      return barcodeChange(history.state);
-    } else {
-      barcode = window.location.href.replace(url, '');
-      if (barcode.length > 0) {
-        barcode = new Barcode(barcode);
-        history.replaceState(barcode.canonical(), null, window.location.href);
-        return barcodeChange(barcode.canonical());
-      }
-    }
+    return onHashChange(window.location.hash);
   });
 
 }).call(this);

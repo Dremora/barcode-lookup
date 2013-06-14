@@ -13,7 +13,7 @@
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.textAlign = 'right';
-    ctx.fillText(barcode.barcode[0], fontSize, lineHeight + fontSize);
+    ctx.fillText(barcode.canonical[0], fontSize, lineHeight + fontSize);
     ctx.textAlign = 'start';
     ctx.translate(fontSize + lineWidth * 3, 0);
     _ref3 = barcode.toBinary();
