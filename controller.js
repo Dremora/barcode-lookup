@@ -1,38 +1,41 @@
 (function() {
-  var barcode, onBarcodeChange, onHashChange, timeout;
+  var barcode, event, onBarcodeChange, onHashChange, timeout, _i, _len, _ref;
 
   timeout = null;
 
   barcode = new Barcode('');
 
   barcode.onChange(function(value) {
-    return $('#barcode').val(value);
+    return document.getElementById('barcode').value = value;
   });
 
   barcode.onChange(function(value) {
-    var canvas;
+    var $checksum, canvas;
     if (!barcode.valid) {
-      $('#main').removeClass('barcode-shown');
-      $('#results').hide();
+      document.getElementById('main').classList.remove('barcode-shown');
+      document.getElementById('results').style.display = 'none';
       if (barcode.empty) {
-        return $('#error').hide();
+        return document.getElementById('error').style.display = 'none';
       } else {
-        return $('#error').show();
+        return document.getElementById('error').style.display = 'block';
       }
     } else {
-      $('#main').addClass('barcode-shown');
-      $('#error').hide();
+      document.getElementById('main').classList.add('barcode-shown');
+      document.getElementById('error').style.display = 'none';
       canvas = document.getElementById('canvas');
       barcodeToCanvas(barcode, canvas);
       document.getElementById('image').src = canvas.toDataURL();
-      $('#results').show();
+      document.getElementById('results').style.display = 'block';
+      $checksum = document.getElementById('checksum');
       if (barcode.validChecksum()) {
-        $('#checksum').text('valid').attr('class', 'valid');
+        $checksum.textContent = 'valid';
+        $checksum.className = 'valid';
       } else {
-        $('#checksum').text('invalid').attr('class', 'invalid');
+        $checksum.textContent = 'invalid';
+        $checksum.className = 'invalid';
       }
-      $('#canonical').text(barcode.canonical);
-      return $('#country').text(barcode.country());
+      document.getElementById('canonical').textContent = barcode.canonical;
+      return document.getElementById('country').textContent = barcode.country();
     }
   });
 
@@ -53,7 +56,7 @@
     if (timeout != null) {
       clearTimeout(timeout);
     }
-    return barcode.set($('#barcode').val());
+    return barcode.set(document.getElementById('barcode').value);
   };
 
   onHashChange = function(hash) {
@@ -65,17 +68,16 @@
     return barcode.set(value);
   };
 
-  $(function() {
-    var event, _i, _len, _ref;
-    _ref = ['keyup', 'keydown', 'paste', 'cut', 'change', 'search'];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      event = _ref[_i];
-      $('#barcode').bind(event, onBarcodeChange);
-    }
-    window.onhashchange = function() {
-      return onHashChange(window.location.hash);
-    };
+  _ref = ['keyup', 'keydown', 'paste', 'cut', 'change', 'search'];
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    event = _ref[_i];
+    document.getElementById('barcode').addEventListener(event, onBarcodeChange);
+  }
+
+  window.onhashchange = function() {
     return onHashChange(window.location.hash);
-  });
+  };
+
+  onHashChange(window.location.hash);
 
 }).call(this);
