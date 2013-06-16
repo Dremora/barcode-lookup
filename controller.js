@@ -1,5 +1,5 @@
 (function() {
-  var barcode, event, onBarcodeChange, onHashChange, timeout, _i, _len, _ref;
+  var barcode, onBarcodeChange, onHashChange, timeout;
 
   timeout = null;
 
@@ -27,11 +27,11 @@
       document.getElementById('image').src = canvas.toDataURL();
       document.getElementById('results').style.display = 'block';
       $checksum = document.getElementById('checksum');
-      if (barcode.validChecksum()) {
+      if (barcode.isChecksumValid()) {
         $checksum.textContent = 'valid';
         $checksum.className = 'valid';
       } else {
-        $checksum.textContent = 'invalid';
+        $checksum.textContent = 'invalid, should be ' + barcode.validChecksum();
         $checksum.className = 'invalid';
       }
       document.getElementById('canonical').textContent = barcode.canonical;
@@ -68,11 +68,7 @@
     return barcode.set(value);
   };
 
-  _ref = ['input'];
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    event = _ref[_i];
-    document.getElementById('barcode').addEventListener(event, onBarcodeChange);
-  }
+  document.getElementById('barcode').addEventListener('input', onBarcodeChange);
 
   window.onhashchange = function() {
     return onHashChange(window.location.hash);

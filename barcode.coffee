@@ -7,7 +7,7 @@ class Barcode
     oldValue = @value
     @value = @newValue
     return if (@value == oldValue)
-    @valid = /^[0-9]{10,13}$/.test(@value)
+    @valid = /^[0-9]{12,13}$/.test(@value)
     @empty = @value == ''
     if @valid
       @canonical = @value
@@ -149,11 +149,17 @@ class Barcode
     else if 990 <= code <= 999 then 'Coupons'
     else 'Unknown country'
 
+  isChecksumValid: ->
+    @validChecksum() == @checksum()
+
+  checksum: ->
+    parseInt(@canonical[12])
+
   validChecksum: ->
     sum = 0
-    sum += parseInt(@canonical[x]) * 3 for x in [1..12] by 2
-    sum += parseInt(@canonical[x]) for x in [0..12] by 2
-    sum % 10 == 0
+    sum += parseInt(@canonical[x]) * 3 for x in [1..11] by 2
+    sum += parseInt(@canonical[x]) for x in [0..11] by 2
+    (10 - sum % 10) % 10
 
   group1map: [
     '000000',

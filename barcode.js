@@ -15,7 +15,7 @@
       if (this.value === oldValue) {
         return;
       }
-      this.valid = /^[0-9]{10,13}$/.test(this.value);
+      this.valid = /^[0-9]{12,13}$/.test(this.value);
       this.empty = this.value === '';
       if (this.valid) {
         this.canonical = this.value;
@@ -298,16 +298,24 @@
       }
     };
 
+    Barcode.prototype.isChecksumValid = function() {
+      return this.validChecksum() === this.checksum();
+    };
+
+    Barcode.prototype.checksum = function() {
+      return parseInt(this.canonical[12]);
+    };
+
     Barcode.prototype.validChecksum = function() {
       var sum, x, _i, _j;
       sum = 0;
-      for (x = _i = 1; _i <= 12; x = _i += 2) {
+      for (x = _i = 1; _i <= 11; x = _i += 2) {
         sum += parseInt(this.canonical[x]) * 3;
       }
-      for (x = _j = 0; _j <= 12; x = _j += 2) {
+      for (x = _j = 0; _j <= 11; x = _j += 2) {
         sum += parseInt(this.canonical[x]);
       }
-      return sum % 10 === 0;
+      return (10 - sum % 10) % 10;
     };
 
     Barcode.prototype.group1map = ['000000', '001011', '001101', '001110', '010011', '011001', '011100', '010101', '010110', '011010'];

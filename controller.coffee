@@ -19,11 +19,11 @@ barcode.onChange (value) ->
     document.getElementById('image').src = canvas.toDataURL()
     document.getElementById('results').style.display = 'block'
     $checksum = document.getElementById('checksum')
-    if barcode.validChecksum()
+    if barcode.isChecksumValid()
       $checksum.textContent = 'valid'
       $checksum.className = 'valid'
     else
-      $checksum.textContent = 'invalid'
+      $checksum.textContent = 'invalid, should be ' + barcode.validChecksum()
       $checksum.className = 'invalid'
     document.getElementById('canonical').textContent = barcode.canonical
     document.getElementById('country').textContent = barcode.country()
