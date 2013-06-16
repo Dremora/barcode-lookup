@@ -45,8 +45,6 @@ onHashChange = (hash) ->
   value = if hash then hash.split('#')[1] else ''
   barcode.set(value)
 
-document.getElementById('barcode').addEventListener(event, onBarcodeChange) for event in [
-  'keyup', 'keydown', 'paste', 'cut', 'change', 'search'
-]
+document.getElementById('barcode').addEventListener('input', onBarcodeChange)
 window.onhashchange = -> onHashChange(window.location.hash)
 onHashChange(window.location.hash)

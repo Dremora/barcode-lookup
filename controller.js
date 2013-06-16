@@ -68,7 +68,7 @@
     return barcode.set(value);
   };
 
-  _ref = ['keyup', 'keydown', 'paste', 'cut', 'change', 'search'];
+  _ref = ['input'];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     event = _ref[_i];
     document.getElementById('barcode').addEventListener(event, onBarcodeChange);
