@@ -1,7 +1,9 @@
 timeout = null
 barcode = new Barcode('')
 
-barcode.onChange (value) -> document.getElementById('barcode').value = value
+barcode.onChange (value) ->
+  if document.getElementById('barcode').value != value
+    document.getElementById('barcode').value = value
 
 barcode.onChange (value) ->
  if !barcode.valid
