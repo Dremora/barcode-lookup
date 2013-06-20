@@ -148,3 +148,9 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.preload * {
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	transition: none !important;
+}

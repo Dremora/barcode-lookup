@@ -88,4 +88,6 @@
 
   onHashChange(window.location.hash);
 
+  document.body.classList.remove('preload');
+
 }).call(this);

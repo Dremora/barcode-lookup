@@ -61,3 +61,4 @@ onHashChange = (hash) ->
 document.getElementById('barcode').addEventListener('input', onBarcodeChange)
 window.onhashchange = -> onHashChange(window.location.hash)
 onHashChange(window.location.hash)
+document.body.classList.remove('preload')
