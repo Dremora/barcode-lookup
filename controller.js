@@ -6,7 +6,9 @@
   barcode = new Barcode('');
 
   barcode.onChange(function(value) {
-    return document.getElementById('barcode').value = value;
+    if (document.getElementById('barcode').value !== value) {
+      return document.getElementById('barcode').value = value;
+    }
   });
 
   barcode.onChange(function(value) {
@@ -34,8 +36,14 @@
         $checksum.textContent = 'invalid, should be ' + barcode.validChecksum();
         $checksum.className = 'invalid';
       }
-      document.getElementById('canonical').textContent = barcode.canonical;
-      return document.getElementById('country').textContent = barcode.country();
+      document.getElementById('country').textContent = barcode.country();
+      if (value === barcode.canonical) {
+        return document.getElementById('show-ean').style.display = 'none';
+      } else {
+        document.getElementById('show-ean-link').textContent = 'show EAN';
+        document.getElementById('show-ean-link').href = '#' + barcode.canonical;
+        return document.getElementById('show-ean').style.display = 'block';
+      }
     }
   });
 

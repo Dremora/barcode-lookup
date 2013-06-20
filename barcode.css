@@ -114,9 +114,29 @@ h1 {
 	width: 240px;
 }
 
-#canonical
+#show-ean
 {
-	font-weight: bold;
+	text-align: center;
+}
+
+#show-ean-link {
+	text-decoration: none;
+	color: rgb(248, 248, 248);
+	text-transform: uppercase;
+	border: 1px solid rgba(247, 245, 245, 0.62);
+	background: rgb(89, 95, 112);
+	padding: 3px 8px;
+	border-radius: 5px;
+	font-family: Georgia;
+	-webkit-box-shadow: 0 0 20px -5px #343434;
+	box-shadow: 0 0 20px -5px #343434;
+	-webkit-transition: background 0.3s linear;
+	-moz-transition: background 0.3s linear;
+	transition: background 0.3s linear;
+}
+
+#show-ean-link:hover {
+	background: rgb(68, 83, 126);
 }
 
 .valid

@@ -27,8 +27,14 @@ barcode.onChange (value) ->
     else
       $checksum.textContent = 'invalid, should be ' + barcode.validChecksum()
       $checksum.className = 'invalid'
-    document.getElementById('canonical').textContent = barcode.canonical
     document.getElementById('country').textContent = barcode.country()
+
+    if value == barcode.canonical
+      document.getElementById('show-ean').style.display = 'none'
+    else
+      document.getElementById('show-ean-link').textContent = 'show EAN'
+      document.getElementById('show-ean-link').href = '#' + barcode.canonical
+      document.getElementById('show-ean').style.display = 'block'
 
 barcode.onChange (value) ->
   clearTimeout timeout if timeout?
