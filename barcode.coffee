@@ -161,6 +161,9 @@ class Barcode
     sum += parseInt(@canonical[x]) for x in [0..11] by 2
     (10 - sum % 10) % 10
 
+  withValidChecksum: ->
+    @value.slice(0, -1) + @validChecksum()
+
   group1map: [
     '000000',
     '001011',

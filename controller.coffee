@@ -20,21 +20,22 @@ barcode.onChange (value) ->
     barcodeToCanvas(barcode, canvas)
     document.getElementById('image').src = canvas.toDataURL()
     document.getElementById('results').style.display = 'block'
+
     $checksum = document.getElementById('checksum')
     if barcode.isChecksumValid()
-      $checksum.textContent = 'valid'
-      $checksum.className = 'valid'
+      $checksum.style.display = 'none'
     else
-      $checksum.textContent = 'invalid, should be ' + barcode.validChecksum()
-      $checksum.className = 'invalid'
+      $checksum.textContent = 'fix checksum'
+      $checksum.href = '#' + barcode.withValidChecksum()
+      $checksum.style.display = ''
     document.getElementById('country').textContent = barcode.country()
 
     if value == barcode.canonical
-      document.getElementById('show-ean').style.display = 'none'
+      document.getElementById('show-ean-link').style.display = 'none'
     else
       document.getElementById('show-ean-link').textContent = 'show EAN'
       document.getElementById('show-ean-link').href = '#' + barcode.canonical
-      document.getElementById('show-ean').style.display = 'block'
+      document.getElementById('show-ean-link').style.display = ''
 
 barcode.onChange (value) ->
   clearTimeout timeout if timeout?

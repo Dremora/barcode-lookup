@@ -114,12 +114,12 @@ h1 {
 	width: 240px;
 }
 
-#show-ean
+#links
 {
 	text-align: center;
 }
 
-#show-ean-link {
+#show-ean-link, #checksum {
 	text-decoration: none;
 	color: rgb(248, 248, 248);
 	text-transform: uppercase;
@@ -133,20 +133,19 @@ h1 {
 	-webkit-transition: background 0.3s linear;
 	-moz-transition: background 0.3s linear;
 	transition: background 0.3s linear;
+	margin: 5px;
 }
 
 #show-ean-link:hover {
-	background: rgb(68, 83, 126);
+	background: rgb(84, 109, 180);
 }
 
-.valid
-{
-	color: #2B9433;
+#checksum {
+	background: rgb(112, 89, 89);
 }
 
-.invalid
-{
-	color: #942B33;
+#checksum:hover {
+	background: rgb(180, 102, 96);
 }
 
 #canvas {
