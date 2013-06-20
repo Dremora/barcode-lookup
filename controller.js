@@ -12,7 +12,7 @@
   });
 
   barcode.onChange(function(value) {
-    var $checksum, canvas;
+    var $checksum, canvas, options;
     if (!barcode.valid) {
       document.getElementById('main').classList.remove('barcode-shown');
       document.getElementById('results').style.display = 'none';
@@ -25,7 +25,11 @@
       document.getElementById('main').classList.add('barcode-shown');
       document.getElementById('error').style.display = 'none';
       canvas = document.getElementById('canvas');
-      barcodeToCanvas(barcode, canvas);
+      options = {};
+      if (!barcode.isChecksumValid()) {
+        options.black = 'rgb(180, 102, 96)';
+      }
+      barcodeToCanvas(barcode, canvas, options);
       document.getElementById('image').src = canvas.toDataURL();
       document.getElementById('results').style.display = 'block';
       $checksum = document.getElementById('checksum');

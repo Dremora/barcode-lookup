@@ -41,7 +41,6 @@
     Barcode.prototype.country = function() {
       var code;
       code = parseInt(this.canonical.slice(0, 3), 10);
-      console.log(code);
       if ((0 <= code && code <= 19)) {
         return 'U.S. and Canada';
       } else if ((20 <= code && code <= 29)) {
@@ -52,10 +51,8 @@
         return 'Restricted distribution (MO defined)';
       } else if ((50 <= code && code <= 59)) {
         return 'Coupons';
-      } else if ((60 <= code && code <= 99)) {
+      } else if ((60 <= code && code <= 139)) {
         return 'U.S. and Canada';
-      } else if ((100 <= code && code <= 139)) {
-        return 'U.S. (reserved for later use)';
       } else if ((200 <= code && code <= 299)) {
         return 'Restricted distribution (MO defined)';
       } else if ((300 <= code && code <= 379)) {
