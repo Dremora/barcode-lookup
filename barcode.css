@@ -25,12 +25,13 @@ body {
 	-webkit-transition: all 0.3s linear;
 	-moz-transition: all 0.3s linear;
 	transition: all 0.3s linear;
-	min-height: calc(100% - 20px);
+	min-height: calc(50% + 89px);
 }
 
 #main.barcode-shown {
 	top: 0%;
 	margin-top: 20px;
+	min-height: calc(100% - 20px);
 }
 
 h1 {
