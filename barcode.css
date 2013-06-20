@@ -22,7 +22,6 @@ body {
 	left: 50%;
 	margin-left: -250px;
 	margin-top: -89px;
-	-webkit-transition: all 0.3s linear;
 	-moz-transition: all 0.3s linear;
 	transition: all 0.3s linear;
 	min-height: calc(50% + 89px);
@@ -44,8 +43,8 @@ h1 {
 	color: rgba(0, 0, 0, 0);
 	text-transform: lowercase;
 	font-variant: small-caps;
-	background: -webkit-repeating-linear-gradient(
-		180deg,
+	background: repeating-linear-gradient(
+		270deg,
 		black 0px,
 		black 3px,
 		rgba(0, 0, 0, 0) 3px,
@@ -65,8 +64,11 @@ h1 {
 	);
 	background-repeat: repeat;
 	-webkit-text-stroke: 1px #333;
+	-moz-text-stroke: 1px #333;
+	text-stroke: 1px #333;
 	-webkit-background-clip: text;
-	-webkit-transition: all 0.3s linear;
+	-moz-background-clip: text;
+	background-clip: text;
 	-moz-transition: all 0.3s linear;
 	transition: all 0.3s linear;
 }
@@ -105,9 +107,7 @@ h1 {
 	padding: 3px 8px;
 	border-radius: 5px;
 	font-family: Georgia;
-	-webkit-box-shadow: 0 0 20px -5px #343434;
 	box-shadow: 0 0 20px -5px #343434;
-	-webkit-transition: background 0.3s linear;
 	-moz-transition: background 0.3s linear;
 	transition: background 0.3s linear;
 	margin: 5px;
@@ -171,7 +171,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .preload * {
-	-webkit-transition: none !important;
 	-moz-transition: none !important;
 	transition: none !important;
 }
