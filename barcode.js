@@ -41,6 +41,7 @@
     Barcode.prototype.country = function() {
       var code;
       code = parseInt(this.canonical.slice(0, 3), 10);
+      console.log(code);
       if ((0 <= code && code <= 19)) {
         return 'U.S. and Canada';
       } else if ((20 <= code && code <= 29)) {
@@ -286,7 +287,7 @@
       } else if (code === 977) {
         return 'Serial publications (ISSN)';
       } else if ((978 <= code && code <= 979)) {
-        return 'Bookland (ISBN) - 979-0 used for sheet music';
+        return 'Bookland (ISBN)';
       } else if (code === 980) {
         return 'Refund receipts';
       } else if ((981 <= code && code <= 983)) {

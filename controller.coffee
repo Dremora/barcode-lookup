@@ -28,6 +28,7 @@ barcode.onChange (value) ->
       $checksum.textContent = 'fix checksum'
       $checksum.href = '#' + barcode.withValidChecksum()
       $checksum.style.display = ''
+
     document.getElementById('country').textContent = barcode.country()
 
     if value == barcode.canonical

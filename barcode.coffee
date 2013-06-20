@@ -26,8 +26,7 @@ class Barcode
     else if 30 <= code <= 39 then 'U.S. drugs (see U.S. National Drug Code)'
     else if 40 <= code <= 49 then 'Restricted distribution (MO defined)'
     else if 50 <= code <= 59 then 'Coupons'
-    else if 60 <= code <= 99 then 'U.S. and Canada'
-    else if 100 <= code <= 139 then 'U.S. (reserved for later use)'
+    else if 60 <= code <= 139 then 'U.S. and Canada'
     else if 200 <= code <= 299 then 'Restricted distribution (MO defined)'
     else if 300 <= code <= 379 then 'France and Monaco'
     else if code == 380 then 'Bulgaria'
@@ -143,7 +142,7 @@ class Barcode
     else if code == 958 then 'Macau'
     else if 960 <= code <= 969 then 'GS1 Global Office: GTIN-8 allocations'
     else if code == 977 then 'Serial publications (ISSN)'
-    else if 978 <= code <= 979 then 'Bookland (ISBN) - 979-0 used for sheet music'
+    else if 978 <= code <= 979 then 'Bookland (ISBN)' # TODO  - 979-0 used for sheet music
     else if code == 980 then 'Refund receipts'
     else if 981 <= code <= 983 then 'Common Currency Coupons'
     else if 990 <= code <= 999 then 'Coupons'

@@ -87,33 +87,6 @@ h1 {
 	display: none;
 }
 
-#results dl
-{
-	overflow: auto;
-}
-
-#results dl dt,
-#results dl dd
-{
-	float: left;
-	margin: 5px 0;
-}
-
-#results dl dt
-{
-	clear: left;
-	width: 250px;
-	color: #555;
-	text-align: right;
-	display: block;
-}
-
-#results dl dd
-{
-	padding-left: 10px;
-	width: 240px;
-}
-
 #links
 {
 	text-align: center;
@@ -150,6 +123,11 @@ h1 {
 
 #canvas {
 	display: none;
+}
+
+#country {
+	font-size: 2.4rem;
+	text-align: center;
 }
 
 img {
