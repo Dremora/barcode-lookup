@@ -6,14 +6,14 @@ module.exports = (grunt) ->
     coffee:
       compile:
         files:
-          'barcode.js': 'barcode.coffee'
-          'barcodeCanvas.js': 'barcodeCanvas.coffee'
-          'controller.js': 'controller.coffee'
+          'dist/barcode.js': 'barcode.coffee'
+          'dist/barcodeCanvas.js': 'barcodeCanvas.coffee'
+          'dist/controller.js': 'controller.coffee'
 
     uglify:
       build:
-        src: ['barcodeCanvas.js', 'barcode.js', 'controller.js']
-        dest: 'barcode-min.js'
+        src: ['dist/barcodeCanvas.js', 'dist/barcode.js', 'dist/controller.js']
+        dest: 'public/barcode-min.js'
   )
 
   grunt.loadNpmTasks('grunt-contrib-uglify')
